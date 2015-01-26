@@ -69,14 +69,14 @@ def count_unique(input_string):
 
 def common_items(list1, list2):
 
-    dict1 = {}
-    dict2 = {}
+    final_list = []
 
-    dict1[element] = dict1.get(element, 0) + 1
-    dict2[element] = dict1.get(element, 0) + 1
+    for word1 in list1:
+        for word2 in list2:
+            if word1 == word2:
+                final_list.append(word1)
 
-
-
+    return final_list
 
 
     """Produce the set of common items in two lists.
@@ -105,10 +105,27 @@ def common_items(list1, list2):
 
     """
 
-    return []
 
 
 def unique_common_items(list1, list2):
+
+    final_list = []
+    counter = 1
+    for word1 in list1:
+        for word2 in list1[counter:]:
+            if word1 == word2:
+                del list1[counter]
+                counter += 1
+            else:
+                counter += 1
+                
+    for word1 in list1:
+        for word2 in list2:
+            if word1 == word2:
+                final_list.append(word1)
+
+    return final_list
+
     """Produce the set of *unique* common items in two lists.
 
     Given two lists, return a list of the *unique* common items shared between 
@@ -130,10 +147,21 @@ def unique_common_items(list1, list2):
 
     """
 
-    return []
-
-
 def sum_zero(list1):
+
+    final_list = []
+    counter = 1
+
+    for num in list1:
+        for num2 in list1[counter:]:
+            if num + num2 == 0:
+                final_list.append([num,num2])
+                counter += 1
+            else:
+                counter += 1
+    return final_list
+
+
     """Return list of x,y number pair lists from a list where x+y==0
 
     Given a list of numbers, add up each individual pair of numbers.
@@ -159,10 +187,22 @@ def sum_zero(list1):
 
     """
 
-    return []
+
 
 
 def find_duplicates(words):
+
+    counter = 1
+    for word1 in words:
+        for word2 in words[counter:]:
+            if word1 == word2:
+                del words[counter]
+                counter += 1
+            else:
+                counter += 1
+    return words
+
+
     """Given a list of words, return the list with duplicates removed.
 
     For example:
@@ -183,7 +223,21 @@ def find_duplicates(words):
 
 
 def word_length(words):
-    """Given list of words, return list of ascending [(len, [words])].
+
+    length_tally = {}
+
+    for word in words:
+        if len(word) not in length_tally:
+            length_tally[len(word)] = [word]
+        else:
+            length_tally[len(word)] = length_tally[len(word)] + [word]
+
+    list1 = length_tally.items()
+    asc_list = sorted(list1)
+    return asc_list
+
+
+    """Given a list of words, return list of ascending [(len, [words])].
 
     Given a list of words, return a list of tuples, ordered by word-length.
     Each tuple should have two items--the length of the words for that 
@@ -200,6 +254,21 @@ def word_length(words):
 
 
 def adv_word_length_sorted_words(words):
+    length_tally = {}
+
+    for word in words:
+        if len(word) not in length_tally:
+            length_tally[len(word)] = [word]
+        else:
+            length_tally[len(word)] = length_tally[len(word)] + [word]
+
+    list1 = length_tally.items()
+    asc_list = sorted(list1)
+
+    for i in range(len(asc_list)):
+        asc_list[i][1].sort()
+    print asc_list
+
     """Given list of words, return list of ascending [(len, [sorted-words])].
 
     Given a list of words, return a list of tuples, ordered by word-length.
@@ -218,6 +287,19 @@ def adv_word_length_sorted_words(words):
 
 
 def pirate_talk(phrase):
+    pirate_translations = {'sir':'matey','hotel':'fleabag inn','student':'swabbie','boy':'matey','madam':'proud beauty','professor':'foul blaggart','restaurant':'galley','your':'yer','excuse':'arr','students':'swabbies','are':'be','lawyer':'foul blaggart','the':'th', 'restroom':'head','my':'me','hello':'avast','is':'be','man':'matey'}
+
+    psentence = []
+    words = phrase.split()
+    for word in words:
+        if word in pirate_translations:
+            psentence.append(pirate_translations[word])
+        else:
+            psentence.append(word)
+
+    return (" ".join(psentence))
+
+
     """Translate phrase to pirate talk.
 
     Given a phrase, translate each word to the Pirate-speak equivalent.
